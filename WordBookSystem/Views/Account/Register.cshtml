@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>単語帳システム新規登録</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>単語帳システム</h1>
+    </header>
+    <main>
+        <h2>新規登録</h2>
+        <form asp-controller="Account" asp-action="Register" method="post">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="All"></div>
+
+            <p>メールアドレスを入力してください</p>
+            <input maxlength="100" type="text" name="Email" placeholder="メールアドレス">
+
+            <p>パスワードを入力してください</p>
+            <input maxlength="20" type="password" name="Password" placeholder="パスワード">
+
+            <input maxlength="20" type="password" name="ConfirmPassWord" placeholder="確認用パスワード">
+
+            <button type="submit">登録</button>
+        </form>
+    </main>
+</body>
+</html>

@@ -1,0 +1,53 @@
+﻿@model List<WordBookSystem.Models.WordBooks>
+
+<header>単語帳アプリ</header>
+
+<button type="button" id="showCreateForm">+新規追加</button>
+
+<form asp-controller="WordBook" asp-action="Create" method="post" id="createForm" style="display:none;">
+    <input type="text" name="wordBookName" placeholder="単語帳名を入力" required />
+    <button type="submit">作成</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>単語帳</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.WordBookName</td>
+                <td>
+                    <a asp-controller="Word"
+                       asp-action="List"
+                       asp-route-wordBookId="@book.WordBookId">
+                        開く
+                    </a>
+                </td>
+                <td>
+                    <form asp-controller="WordBook"
+                    asp-action="Delete"
+                    asp-route-WordBookId="@book.WordBookId"
+                    method="post"
+                    style="display:inline">
+                    <button type="submit"
+                        onclick="return confirm('この単語帳を削除しますか?');">
+                        削除
+                    </button>
+                    </form>
+                </td>
+            </tr>
+        }
+     
+
+    </tbody>
+</table>
+
+<script>
+    document.getElementById("showCreateForm").addEventListener("click", function () {
+        document.getElementById("createForm").style.display = "block";
+    });
+</script>

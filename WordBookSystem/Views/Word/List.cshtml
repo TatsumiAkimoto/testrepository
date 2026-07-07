@@ -1,0 +1,106 @@
+﻿@model WordBookSystem.ViewModels.Word.WordList
+
+<header>単語帳システム</header>
+<main>
+<h1>@Model.WordBookName の単語一覧</h1>
+
+<button type="button" id="showCreateWordForm">
+    単語を追加
+</button>
+
+<form asp-controller="Word"
+      asp-action="Create"
+      method="post"
+      id="createWordForm"
+      style="display:none;">
+
+    <input type="hidden"
+           name="wordBookId"
+           value="@Model.WordBookId" />
+
+    <input type="text" name="WordName" placeholder="単語" required />
+    <input type="text" name="WordMeaning" placeholder="意味" required />
+    <input type="text" name="WordClass" placeholder="品詞" />
+    <textarea name="WordExample" placeholder="例文"></textarea>
+    <textarea name="Memo" placeholder="メモ"></textarea>
+
+    <button type="submit">登録</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>単語</th>
+            <th>意味</th>
+            <th>品詞</th>
+            <th>例文</th>
+            <th>メモ</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var word in Model.Words)
+        {
+            <tr>
+                <td>@word.WordName</td>
+                <td>@word.WordMeaning</td>
+                <td>@word.WordClass</td>
+                <td>@word.WordExample</td>
+                <td>@word.Memo</td>
+                <td>
+                    <form asp-controller="Word"
+                          asp-action="Delete"
+                          asp-route-WordId="@word.WordId"
+                              asp-route-wordBookId="@Model.WordBookId"
+                          method="post"
+                          style="display:inline">
+                        <button type="submit"
+                                onclick="return confirm('この単語を削除しますか?');">
+                            削除
+                        </button>
+                    </form>
+                </td>
+                    <td>
+                        <button type="button"
+                                onclick="showEditForm(@word.WordId)">
+                            編集
+                        </button>
+
+                        <form asp-controller="Word"
+                              asp-action="Edit"
+                              method="post"
+                              id="editWordForm-@word.WordId"
+                              style="display:none;">
+
+                            <input type="hidden" name="WordId" value="@word.WordId" />
+                            <input type="hidden" name="WordBookId" value="@Model.WordBookId" />
+
+                            <input type="text" name="WordName" value="@word.WordName" required />
+                            <input type="text" name="WordMeaning" value="@word.WordMeaning" required />
+                            <input type="text" name="WordClass" value="@word.WordClass" />
+                            <textarea name="WordExample">@word.WordExample</textarea>
+                            <textarea name="Memo">@word.Memo</textarea>
+
+                            <button type="submit">更新</button>
+                        </form>
+                    </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button type="button"
+        onclick="location.href='@Url.Action("Index", "WordBook")'">
+    戻る
+</button>
+</main>
+
+<script>
+    document.getElementById("showCreateWordForm").addEventListener("click", function () {
+        document.getElementById("createWordForm").style.display = "block";
+    });
+
+    function showEditForm(wordId) {
+        const form = document.getElementById("editWordForm-" + wordId);
+        form.style.display = "block";
+    }
+</script>

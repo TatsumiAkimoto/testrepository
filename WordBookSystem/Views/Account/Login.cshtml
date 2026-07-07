@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>単語帳システムログイン</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>単語帳システム</header>
+    <main>
+        <h2>ログイン</h2>
+        <form asp-controller="Account" asp-action="Login" method="post">
+            @Html.AntiForgeryToken()
+            <input maxlength="100" type="text" name="Email" placeholder="メールアドレス" required>
+            <input maxlength="20" type="password" name="Password" placeholder="パスワード" required>
+            <button type="submit">ログイン</button>
+        </form>
+        <a asp-controller="Account" asp-action="Register">新規登録はこちら</a>
+    </main>
+</body>
+</html>
